@@ -31,6 +31,7 @@
 #include <assert.h>
 #include <stddef.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "hash-ops.h"
 #include "initializer.h"
@@ -70,7 +71,8 @@ static void generate_system_random_bytes(size_t n, void *result) {
 static void generate_system_random_bytes(size_t n, void *result) {
   int fd;
   if ((fd = open("/dev/urandom", O_RDONLY | O_NOCTTY | O_CLOEXEC)) < 0) {
-    err(EXIT_FAILURE, "open /dev/urandom");
+	printf("open /dev/urandom");
+	exit(EXIT_FAILURE);
   }
   for (;;) {
     ssize_t res = read(fd, result, n);
@@ -79,17 +81,20 @@ static void generate_system_random_bytes(size_t n, void *result) {
     }
     if (res < 0) {
       if (errno != EINTR) {
-        err(EXIT_FAILURE, "read /dev/urandom");
+	    printf("read /dev/urandom");
+	    exit(EXIT_FAILURE);
       }
     } else if (res == 0) {
-      errx(EXIT_FAILURE, "read /dev/urandom: end of file");
+	  printf("read /dev/urandom: end of file");
+	  exit(EXIT_FAILURE);
     } else {
       result = padd(result, (size_t) res);
       n -= (size_t) res;
     }
   }
   if (close(fd) < 0) {
-    err(EXIT_FAILURE, "close /dev/urandom");
+	printf("close /dev/urandom");
+	exit(EXIT_FAILURE);
   }
 }
 

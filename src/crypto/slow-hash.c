@@ -55,7 +55,7 @@
 extern void aesb_single_round(const uint8_t *in, uint8_t *out, const uint8_t *expandedKey);
 extern void aesb_pseudo_round(const uint8_t *in, uint8_t *out, const uint8_t *expandedKey);
 
-int use_v4_jit(void);
+
 
 static void local_abort(const char *msg)
 {
@@ -282,7 +282,7 @@ THREADV int hp_jitfunc_allocated = 0;
 #define VARIANT4_RANDOM_MATH_INIT() \
   v4_reg r[9]; \
   struct V4_Instruction code[NUM_INSTRUCTIONS_MAX + 1]; \
-  int jit = use_v4_jit(); \
+  int jit = false; \
   do if (variant >= 4) \
   { \
     for (int i = 0; i < 4; ++i) \
@@ -497,30 +497,6 @@ STATIC INLINE int force_software_aes(void)
   return use;
 }
 
-volatile int use_v4_jit_flag = -1;
-
-STATIC INLINE int use_v4_jit(void)
-{
-#if defined(__x86_64__) && !defined(__EMSCRIPTEN__)
-
-  if (use_v4_jit_flag != -1)
-    return use_v4_jit_flag;
-
-  const char *env = getenv("MONERO_USE_CNV4_JIT");
-  if (!env) {
-    use_v4_jit_flag = 0;
-  }
-  else if (!strcmp(env, "0") || !strcmp(env, "no")) {
-    use_v4_jit_flag = 0;
-  }
-  else {
-    use_v4_jit_flag = 1;
-  }
-  return use_v4_jit_flag;
-#else
-  return 0;
-#endif
-}
 
 STATIC INLINE int check_aes_hw(void)
 {

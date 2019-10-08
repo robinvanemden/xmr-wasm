@@ -21,9 +21,9 @@ endif
 
 LDPARAM += $(LDFLAGS) -s EXTRA_EXPORTED_RUNTIME_METHODS='["ccall", "cwrap"]' --proxy-to-worker --shell-file template.html --post-js post.js
 
-INCPATH :=  $(DIRS) /opt/local/include
+INCPATH :=  $(DIRS) /usr/local/boost_1_71_0/ /opt/local/lib/ /opt/local/lib/include
 
-LIBPATH :=  /opt/local/lib/ /usr/local/lib
+LIBPATH :=  /usr/local/lib /usr/local/boost_1_71_0/ /opt/local/lib/
 
 EXTRA_FILES = Makefile
 
