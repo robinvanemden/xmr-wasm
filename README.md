@@ -7,7 +7,9 @@ Whilst browser mining can be used maliciously, there are many non-malicious use-
 
 ## Compiling
 
-To compile, you first need a working setup of the WebAssembly toolchain. Follow instructions at [webassembly.org](http://webassembly.org/getting-started/developers-guide/).
+To compile, you first need a working setup of the WebAssembly toolchain. Follow instructions at [webassembly.org](http://webassembly.org/getting-started/developers-guide/). Emscripten version: 1.38.47
+
+Local libraries (installed from source): sodiumlib 1.0.16, boost 1.71 (using "b2 toolset=emscripten").
 
 Then simply run `make` in the root directory of this repository. This will output to the build/debug folder.
 
